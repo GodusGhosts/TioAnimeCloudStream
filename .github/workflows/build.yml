@@ -1,0 +1,35 @@
+name: Build Plugins
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Build Plugin
+        run: ./gradlew build
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin
+          path: TioAnimeProvider/build/libs/
