@@ -1,0 +1,8 @@
+{
+  "name": "TioAnime CloudStream",
+  "description": "Anime sub español latino",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/GodusGhosts/TioAnimeCloudStream/builds/plugins.json"
+  ]
+}
