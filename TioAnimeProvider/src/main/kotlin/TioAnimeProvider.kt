@@ -94,7 +94,33 @@ class TioAnimeProvider : MainAPI() {
         }
     }
 
-    override suspend fun loadLinks(
+    @Suppress("DEPRECATION")
+override suspend fun loadLinks(
+    data: String,
+    isCasting: Boolean,
+    subtitleCallback: (SubtitleFile) -> Unit,
+    callback: (ExtractorLink) -> Unit
+): Boolean {
+
+    val document = app.get(data).document
+
+    val iframe = document.selectFirst("iframe")
+        ?.attr("src")
+        ?: return false
+
+    callback.invoke(
+        ExtractorLink(
+            source = name,
+            name = "TioAnime",
+            url = iframe,
+            referer = mainUrl,
+            quality = 0,
+            isM3u8 = iframe.contains(".m3u8")
+        )
+    )
+
+    return true
+}
         data: String,
         isCasting: Boolean,
         subtitleCallback: (SubtitleFile) -> Unit,
