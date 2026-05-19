@@ -72,9 +72,9 @@ class TioAnimeProvider : MainAPI() {
                 link.attr("href")
             )
 
-            Episode(
-                data = epUrl,
-                name = link.text()
+            newEpisode(epUrl) {
+    this.name = link.text()
+}
             )
         }
 
@@ -85,8 +85,10 @@ class TioAnimeProvider : MainAPI() {
         ) {
             posterUrl = poster
             plot = description
-            this.episodes = episodes
-        }
+            addEpisodes(
+    DubStatus.Subbed,
+    episodes
+)
     }
 
     override suspend fun loadLinks(
