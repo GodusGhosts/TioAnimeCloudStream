@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.22" apply false
+    id("com.lagradost.cloudstream3.gradle") version "1.0.0"
 }
 
 allprojects {
