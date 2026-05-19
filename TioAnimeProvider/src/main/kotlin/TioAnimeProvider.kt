@@ -3,6 +3,8 @@ package com.godusghosts.tioanime
 import com.lagradost.cloudstream3.*
 import com.lagradost.cloudstream3.utils.*
 import org.jsoup.nodes.Element
+import com.lagradost.cloudstream3.plugins.Plugin
+import com.lagradost.cloudstream3.plugins.CloudstreamPlugin
 
 class TioAnimeProvider : MainAPI() {
 
@@ -114,5 +116,11 @@ class TioAnimeProvider : MainAPI() {
         )
 
         return true
+    }
+}
+@CloudstreamPlugin
+class TioAnimePlugin : Plugin() {
+    override fun load(context: android.content.Context) {
+        registerMainAPI(TioAnimeProvider())
     }
 }
