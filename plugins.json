@@ -1,0 +1,22 @@
+[
+    {
+        "url": "https://raw.githubusercontent.com/GodusGhosts/TioAnimeCloudStream/builds/TioAnimeProvider.cs3",
+        "status": 1,
+        "version": 4,
+        "name": "TioAnimeProvider",
+        "internalName": "TioAnimeProvider",
+        "authors": [
+            "GodusGhosts"
+        ],
+        "description": "Anime sub espa\u00f1ol latino desde TioAnime",
+        "fileSize": 8650,
+        "repositoryUrl": "https://github.com/GodusGhosts/TioAnimeCloudStream",
+        "language": "es",
+        "tvTypes": [
+            "Anime"
+        ],
+        "iconUrl": "https://tioanime.com/favicon.ico",
+        "apiVersion": 1,
+        "fileHash": "sha256-fa8a924bd087f9d38a7e72e5658d45cbf7c506d0d90b4df144a93bc834b75277"
+    }
+]
