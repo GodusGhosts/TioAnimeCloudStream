@@ -1,11 +1,19 @@
-plugins {
-    id("com.lagradost.cloudstream3.gradle") version "1.0.0"
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
+
+    dependencies {
+        classpath("com.github.recloudstream:gradle:master-SNAPSHOT")
+    }
 }
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         maven("https://jitpack.io")
     }
 }
