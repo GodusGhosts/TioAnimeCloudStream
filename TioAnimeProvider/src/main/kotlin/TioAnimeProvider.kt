@@ -28,7 +28,8 @@ class TioAnimeProvider : MainAPI() {
 
     private fun Element.toSearchResult(): AnimeSearchResponse? {
 
-        val title = this.selectFirst("h3")?.text()
+        val title = this.selectFirst("h3")
+            ?.text()
             ?: return null
 
         val href = fixUrl(
@@ -73,9 +74,8 @@ class TioAnimeProvider : MainAPI() {
             )
 
             newEpisode(epUrl) {
-    this.name = link.text()
-}
-            )
+                name = link.text()
+            }
         }
 
         return newAnimeLoadResponse(
@@ -85,10 +85,12 @@ class TioAnimeProvider : MainAPI() {
         ) {
             posterUrl = poster
             plot = description
+
             addEpisodes(
-    DubStatus.Subbed,
-    episodes
-)
+                DubStatus.Subbed,
+                episodes
+            )
+        }
     }
 
     override suspend fun loadLinks(
@@ -105,14 +107,15 @@ class TioAnimeProvider : MainAPI() {
             ?: return false
 
         callback.invoke(
-            ExtractorLink(
+            newExtractorLink(
                 source = name,
                 name = "TioAnime",
-                url = iframe,
-                referer = mainUrl,
-                quality = Qualities.Unknown.value,
+                url = iframe
+            ) {
+                referer = mainUrl
+                quality = Qualities.Unknown.value
                 isM3u8 = iframe.contains(".m3u8")
-            )
+            }
         )
 
         return true
