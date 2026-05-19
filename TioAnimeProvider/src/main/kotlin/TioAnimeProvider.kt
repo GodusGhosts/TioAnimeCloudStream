@@ -62,6 +62,7 @@ class TioAnimeProvider : MainAPI() {
                 episode = number
     }
 }
+        val document = app.get(url).document
         
         val title = document.selectFirst("h1")
             ?.text()
