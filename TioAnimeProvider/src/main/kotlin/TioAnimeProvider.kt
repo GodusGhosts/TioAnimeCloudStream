@@ -62,7 +62,17 @@ class TioAnimeProvider : MainAPI() {
                 episode = number
     }
 }
+        
+        val title = document.selectFirst("h1")
+            ?.text()
+            ?: "Sin título"
 
+        val poster = document.selectFirst("img")
+            ?.attr("src")
+
+        val description = document.selectFirst(".sinopsis")
+            ?.text()
+    
         return newAnimeLoadResponse(
             title,
             url,
