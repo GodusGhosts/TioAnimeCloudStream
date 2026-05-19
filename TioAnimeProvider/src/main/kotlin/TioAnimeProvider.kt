@@ -70,9 +70,6 @@ class TioAnimeProvider : MainAPI() {
             ?.text()
             ?: "Sin título"
 
-        val poster = document.selectFirst("img")
-            ?.attr("src")
-
         val description = document.selectFirst(".sinopsis")
             ?.text()
     
