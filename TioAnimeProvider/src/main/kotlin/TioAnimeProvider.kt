@@ -107,14 +107,15 @@ class TioAnimeProvider : MainAPI() {
             ?: return false
 
         callback.invoke(
-            newExtractorLink(
-                source = name,
-                name = "TioAnime",
-                url = iframe
-            ) {
-                referer = mainUrl
-                quality = Qualities.Unknown.value
-                callback.invoke(
+    ExtractorLink(
+        source = name,
+        name = "TioAnime",
+        url = iframe,
+        referer = mainUrl,
+        quality = 0,
+        isM3u8 = iframe.contains(".m3u8")
+    )
+)
     newExtractorLink(
         source = name,
         name = "TioAnime",
