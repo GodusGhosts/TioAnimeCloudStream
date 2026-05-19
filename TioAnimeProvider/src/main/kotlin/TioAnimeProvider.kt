@@ -15,32 +15,30 @@ class TioAnimeProvider : MainAPI() {
         TvType.Anime
     )
 
-    override val mainPage = mainPageOf(
-        "$mainUrl/directorio?q=" to "Anime"
-    )
-
     override suspend fun search(query: String): List<SearchResponse> {
 
         val document = app.get(
             "$mainUrl/directorio?q=$query"
         ).document
 
-        return document.select("article").mapNotNull {
-            it.toSearchResult()
+        return document.select("article").mapNotNull { element ->
+            element.toSearchResult()
         }
     }
 
     private fun Element.toSearchResult(): AnimeSearchResponse? {
 
-        val title = this.selectFirst("h3")?.text() ?: return null
+        val title = this.selectFirst("h3")?.text()
+            ?: return null
 
         val href = fixUrl(
-            this.selectFirst("a")?.attr("href") ?: return null
+            this.selectFirst("a")
+                ?.attr("href")
+                ?: return null
         )
 
-        val poster = fixUrlNull(
-            this.selectFirst("img")?.attr("src")
-        )
+        val poster = this.selectFirst("img")
+            ?.attr("src")
 
         return newAnimeSearchResponse(
             title,
@@ -55,27 +53,28 @@ class TioAnimeProvider : MainAPI() {
 
         val document = app.get(url).document
 
-        val title = document.selectFirst("h1")?.text()
+        val title = document.selectFirst("h1")
+            ?.text()
             ?: "Sin título"
 
-        val poster = fixUrlNull(
-            document.selectFirst(".anime-info img")
-                ?.attr("src")
-        )
+        val poster = document.selectFirst("img")
+            ?.attr("src")
 
         val description = document.selectFirst(".sinopsis")
             ?.text()
 
-        val episodes = document.select("ul.episodes li").map {
-            val epUrl = fixUrl(
-                it.selectFirst("a")!!.attr("href")
-            )
+        val episodes = document.select("li").mapNotNull { element ->
 
-            val epName = it.text()
+            val link = element.selectFirst("a")
+                ?: return@mapNotNull null
+
+            val epUrl = fixUrl(
+                link.attr("href")
+            )
 
             Episode(
                 data = epUrl,
-                name = epName
+                name = link.text()
             )
         }
 
@@ -105,7 +104,7 @@ class TioAnimeProvider : MainAPI() {
 
         callback.invoke(
             ExtractorLink(
-                source = "TioAnime",
+                source = name,
                 name = "TioAnime",
                 url = iframe,
                 referer = mainUrl,
