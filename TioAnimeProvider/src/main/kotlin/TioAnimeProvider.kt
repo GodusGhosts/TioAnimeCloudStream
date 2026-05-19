@@ -50,28 +50,34 @@ class TioAnimeProvider : MainAPI() {
         }
     }
 
-    override suspend fun loadLinks(
-    data: String,
-    isCasting: Boolean,
-    subtitleCallback: (SubtitleFile) -> Unit,
-    callback: (ExtractorLink) -> Unit
-): Boolean {
+    override suspend fun load(url: String): LoadResponse {
 
-    val document = app.get(data).document
+        val document = app.get(url).document
 
-    val iframe = document.selectFirst("iframe")
-        ?.attr("src")
-        ?: return false
+        val title = document.selectFirst("h1")
+            ?.text()
+            ?: "Sin título"
 
-    loadExtractor(
-        iframe,
-        mainUrl,
-        subtitleCallback,
-        callback
-    )
+        val poster = document.selectFirst("img")
+            ?.attr("src")
 
-    return true
-}
+        val description = document.selectFirst(".sinopsis")
+            ?.text()
+
+        val episodes = document.select("li").mapNotNull { element ->
+
+            val link = element.selectFirst("a")
+                ?: return@mapNotNull null
+
+            val epUrl = fixUrl(
+                link.attr("href")
+            )
+
+            newEpisode(epUrl) {
+                name = link.text()
+            }
+        }
+
         return newAnimeLoadResponse(
             title,
             url,
@@ -79,7 +85,7 @@ class TioAnimeProvider : MainAPI() {
         ) {
             posterUrl = poster
             plot = description
-
+        }.apply {
             addEpisodes(
                 DubStatus.Subbed,
                 episodes
@@ -87,7 +93,6 @@ class TioAnimeProvider : MainAPI() {
         }
     }
 
-    @Suppress("DEPRECATION")
     override suspend fun loadLinks(
         data: String,
         isCasting: Boolean,
@@ -101,15 +106,11 @@ class TioAnimeProvider : MainAPI() {
             ?.attr("src")
             ?: return false
 
-        callback.invoke(
-            ExtractorLink(
-                source = name,
-                name = "TioAnime",
-                url = iframe,
-                referer = mainUrl,
-                quality = 0,
-                isM3u8 = iframe.contains(".m3u8")
-            )
+        loadExtractor(
+            iframe,
+            mainUrl,
+            subtitleCallback,
+            callback
         )
 
         return true
