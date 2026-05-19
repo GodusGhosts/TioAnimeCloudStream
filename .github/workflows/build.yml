@@ -29,6 +29,9 @@ jobs:
 
       - name: Make plugins.json
         run: gradle makePluginsJson
+      
+      - name: Copy cs3 to build folder
+        run: cp ./TioAnimeProvider/build/TioAnimeProvider.cs3 ./build/TioAnimeProvider.cs3
 
       - name: Show build files
         run: find . -name "*.cs3" -o -name "plugins.json" -o -name "repo.json"
