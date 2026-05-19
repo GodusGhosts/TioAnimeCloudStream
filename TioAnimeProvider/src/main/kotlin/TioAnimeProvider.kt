@@ -53,13 +53,16 @@ class TioAnimeProvider : MainAPI() {
 
     override suspend fun load(url: String): LoadResponse {
 
-        val episodes = listOf(
-    newEpisode(
-        "$mainUrl/ver/isekai-nonbiri-nouka-1"
-    ) {
-        name = "TEST EPISODIO 1"
-        episode = 1
+        val slug = url.substringAfterLast("/anime/")
+
+        val poster = "$mainUrl/uploads/animes/covers/$slug.jpg"
+
+        val episodes = (1..50).map { number ->
+            newEpisode("$mainUrl/ver/$slug-$number") {
+                name = "Episodio $number"
+                episode = number
     }
+}
 )
         val document = app.get(url).document
         
