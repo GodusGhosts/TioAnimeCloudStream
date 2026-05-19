@@ -35,5 +35,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: builds
-          publish_dir: ./build
+          publish_dir: ./build/plugins
           force_orphan: true
