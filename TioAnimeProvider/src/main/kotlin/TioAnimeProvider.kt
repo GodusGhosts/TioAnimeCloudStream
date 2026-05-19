@@ -54,31 +54,14 @@ class TioAnimeProvider : MainAPI() {
 
     override suspend fun load(url: String): LoadResponse {
 
-        val document = app.get(url).document
+        val slug = url.substringAfterLast("/anime/")
 
-        val title = document.selectFirst("h1")
-            ?.text()
-            ?: "Sin título"
-
-        val poster = document.selectFirst("img")
-            ?.attr("src")
-
-        val description = document.selectFirst(".sinopsis")
-            ?.text()
-
-        val episodes = document.select("li").mapNotNull { element ->
-
-            val link = element.selectFirst("a")
-                ?: return@mapNotNull null
-
-            val epUrl = fixUrl(
-                link.attr("href")
-            )
-
-            newEpisode(epUrl) {
-                name = link.text()
-            }
-        }
+        val episodes = (1..50).map { number ->
+            newEpisode("$mainUrl/ver/$slug-$number") {
+                name = "Episodio $number"
+                episode = number
+    }
+}
 
         return newAnimeLoadResponse(
             title,
