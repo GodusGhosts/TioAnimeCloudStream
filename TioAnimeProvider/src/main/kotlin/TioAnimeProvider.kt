@@ -40,8 +40,7 @@ class TioAnimeProvider : MainAPI() {
                 ?: return null
         )
 
-        val poster = this.selectFirst("img")
-            ?.attr("src")
+        val poster = "https://tioanime.com/uploads/animes/covers/isekai-nonbiri-nouka.jpg"
 
         return newAnimeSearchResponse(
             title,
@@ -54,14 +53,14 @@ class TioAnimeProvider : MainAPI() {
 
     override suspend fun load(url: String): LoadResponse {
 
-        val slug = url.substringAfterLast("/anime/")
-
-        val episodes = (1..50).map { number ->
-            newEpisode("$mainUrl/ver/$slug-$number") {
-                name = "Episodio $number"
-                episode = number
+        val episodes = listOf(
+    newEpisode(
+        "$mainUrl/ver/isekai-nonbiri-nouka-1"
+    ) {
+        name = "TEST EPISODIO 1"
+        episode = 1
     }
-}
+)
         val document = app.get(url).document
         
         val title = document.selectFirst("h1")
