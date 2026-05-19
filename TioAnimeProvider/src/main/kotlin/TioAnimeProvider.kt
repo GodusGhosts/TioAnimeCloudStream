@@ -2,7 +2,6 @@ package com.godusghosts.tioanime
 
 import com.lagradost.cloudstream3.*
 import com.lagradost.cloudstream3.utils.*
-import com.lagradost.cloudstream3.utils.ExtractorLink
 import org.jsoup.nodes.Element
 
 class TioAnimeProvider : MainAPI() {
@@ -47,7 +46,7 @@ class TioAnimeProvider : MainAPI() {
             href,
             TvType.Anime
         ) {
-            this.posterUrl = poster
+            posterUrl = poster
         }
     }
 
@@ -95,32 +94,7 @@ class TioAnimeProvider : MainAPI() {
     }
 
     @Suppress("DEPRECATION")
-override suspend fun loadLinks(
-    data: String,
-    isCasting: Boolean,
-    subtitleCallback: (SubtitleFile) -> Unit,
-    callback: (ExtractorLink) -> Unit
-): Boolean {
-
-    val document = app.get(data).document
-
-    val iframe = document.selectFirst("iframe")
-        ?.attr("src")
-        ?: return false
-
-    callback.invoke(
-        ExtractorLink(
-            source = name,
-            name = "TioAnime",
-            url = iframe,
-            referer = mainUrl,
-            quality = 0,
-            isM3u8 = iframe.contains(".m3u8")
-        )
-    )
-
-    return true
-}
+    override suspend fun loadLinks(
         data: String,
         isCasting: Boolean,
         subtitleCallback: (SubtitleFile) -> Unit,
