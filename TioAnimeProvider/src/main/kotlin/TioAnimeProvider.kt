@@ -50,34 +50,28 @@ class TioAnimeProvider : MainAPI() {
         }
     }
 
-    override suspend fun load(url: String): LoadResponse {
+    override suspend fun loadLinks(
+    data: String,
+    isCasting: Boolean,
+    subtitleCallback: (SubtitleFile) -> Unit,
+    callback: (ExtractorLink) -> Unit
+): Boolean {
 
-        val document = app.get(url).document
+    val document = app.get(data).document
 
-        val title = document.selectFirst("h1")
-            ?.text()
-            ?: "Sin título"
+    val iframe = document.selectFirst("iframe")
+        ?.attr("src")
+        ?: return false
 
-        val poster = document.selectFirst("img")
-            ?.attr("src")
+    loadExtractor(
+        iframe,
+        mainUrl,
+        subtitleCallback,
+        callback
+    )
 
-        val description = document.selectFirst(".sinopsis")
-            ?.text()
-
-        val episodes = document.select("li").mapNotNull { element ->
-
-            val link = element.selectFirst("a")
-                ?: return@mapNotNull null
-
-            val epUrl = fixUrl(
-                link.attr("href")
-            )
-
-            newEpisode(epUrl) {
-                name = link.text()
-            }
-        }
-
+    return true
+}
         return newAnimeLoadResponse(
             title,
             url,
