@@ -1,15 +1,15 @@
-plugins {
-    kotlin("jvm")
-}
+version = 1
 
-version = "1.0.0"
+cloudstream {
+    language = "es"
+    description = "Anime sub español latino desde TioAnime"
+    authors = listOf("GodusGhosts")
 
-repositories {
-    mavenCentral()
-    google()
-    maven("https://jitpack.io")
-}
+    status = 1
 
-dependencies {
-    implementation(kotlin("stdlib"))
+    tvTypes = listOf(
+        "Anime"
+    )
+
+    iconUrl = "https://tioanime.com/favicon.ico"
 }
