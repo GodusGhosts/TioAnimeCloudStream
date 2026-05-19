@@ -30,10 +30,13 @@ jobs:
       - name: Make plugins.json
         run: gradle makePluginsJson
 
+      - name: Show build files
+        run: find . -name "*.cs3" -o -name "plugins.json" -o -name "repo.json"
+
       - name: Publish to builds branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: builds
-          publish_dir: ./TioAnimeProvider/build/plugins
+          publish_dir: ./build
           force_orphan: true
